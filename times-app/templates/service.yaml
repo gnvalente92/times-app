@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "times-app.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "times-app.name" . }}
+    helm.sh/chart: {{ include "times-app.chart" . }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 8080
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: {{ include "times-app.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}

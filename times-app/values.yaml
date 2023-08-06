@@ -1,0 +1,12 @@
+replicaCount: 1
+
+image:
+  repository: gcr.io/wili-394920/times_app
+  tag: 0.0.1
+  pullPolicy: IfNotPresent
+
+service:
+  type: LoadBalancer
+  port: 80
+
+timezone: America/New_York,Europe/Berlin,Asia/Tokyo

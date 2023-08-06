@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "times-app.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "times-app.name" . }}
+    helm.sh/chart: {{ include "times-app.chart" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "times-app.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "times-app.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: TIMEZONE
+              value: "{{ .Values.timezone }}"
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
